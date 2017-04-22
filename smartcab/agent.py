@@ -138,12 +138,14 @@ class LearningAgent(Agent):
             receives an award. This function does not consider future rewards 
             when conducting learning. """
 
-        ########### 
-        ## TO DO ##
-        ###########
         # When learning, implement the value iteration update rule
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
-
+        if self.learning:
+            Qval = self.Q[state][action]
+            Qval += self.alpha * (reward - Qval) # Without considering future rewards
+            self.Q[state][action] = Qval
+        print("ALPHA: {}  EPSILON: {}".format(self.alpha, self.epsilon))
+        print("ADECAY: {}  EDECAY: {}".format(self.adecay, self.edecay))
         return
 
 
