@@ -18,7 +18,39 @@ class LearningAgent(Agent):
         :param epsilon:
         :param alpha:
         :param edecay: Espilon Decay
+            - None = No decay
+            - (float) = linear decay rate
+            - "a^t" = alpha to the power of time step.
+            - "a" =  same value as alpha
+            - "a2" = alpha^2
+            - "1/t2" = 1/(t^2)
+            - "1/t" = 1/t
+            - "eat" = e ^ (-alpha * t)
+            - "ert" followed by anything that could be converted to a
+                float, eg "ert0.05" = e^(-0.05 * t)
+            - "et" = e^(-t)
+            - "cat" = cos(alpha * t)
+            - "inv_sigmoid_k...o..." where there is a float just after the k,
+               and o. Creates an inverse sigmoid parameterized by k, which
+               controls how quickly it decays, and o which is the offset, which
+               controls what portion of the sigmoid curve to start at for time 0
+            - "r" followed by any number that could be converted
+                          to a float and interpreted as a percentage.
+                          eg, "r99.5". The espilon value decays at each time step
+                          by that percentage.
+                                          
         :param adecay: Alpha Decay
+                - (float) linear decay rate
+                - "1/t"  = 1/t
+                - "1/t2" = 1/t^2
+                - "1/logt" = 1/log(t + e - 1)
+                - "r" followed by any number that could be converted
+                          to a float and interpreted as a percentage.
+                          eg, "r99.5". The alpha value decays at each time step
+                          by that percentage.
+                - "cr99.5" same as above, but the alpha decay is capped to a
+                           minumum value of 0.001.
+        
         """
         super(LearningAgent, self).__init__(env)     # Set the agent in the evironment 
         self.planner = RoutePlanner(self.env, self)  # Create a route planner
