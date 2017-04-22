@@ -54,11 +54,12 @@ class LearningAgent(Agent):
 
         return None
 
-    def build_state(self):
-        """ The build_state function is called when the agent requests data from the 
-            environment. The next waypoint, the intersection inputs, and the deadline 
-            are all features available to the agent. """
 
+    def build_state(self):
+        """ The build_state function is called when the agent requests data from
+            the environment. The next waypoint, the intersection inputs, and the
+            deadline are all features available to the agent.
+        """
         # Collect data about the environment
         waypoint = self.planner.next_waypoint() # The next waypoint 
         inputs = self.env.sense(self)           # Visual input - intersection light and traffic
