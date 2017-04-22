@@ -64,12 +64,9 @@ class LearningAgent(Agent):
         inputs = self.env.sense(self)           # Visual input - intersection light and traffic
         deadline = self.env.get_deadline(self)  # Remaining deadline
 
-        ########### 
-        ## TO DO ##
-        ###########
-        # Set 'state' as a tuple of relevant data for the agent        
-        state = None
-
+        input_keys = ['light', 'oncoming', 'left']
+        state = tuple(inputs[key] for key in input_keys)
+        state += (waypoint,)
         return state
 
 
