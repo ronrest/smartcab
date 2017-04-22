@@ -107,16 +107,29 @@ class LearningAgent(Agent):
         # Set the agent state and default action
         self.state = state
         self.next_waypoint = self.planner.next_waypoint()
-        action = random.choice(self.valid_actions)
-        print("VaLID ACTIONS: ", self.valid_actions)
-
-        ########### 
-        ## TO DO ##
-        ###########
-        # When not learning, choose a random action
+        # action = random.choice(self.valid_actions)
+        
         # When learning, choose a random action with 'epsilon' probability
         #   Otherwise, choose an action with the highest Q-value for the current state
- 
+        if self.learning:
+            # With a probability of epsilon, chose an action at random
+            # (but only if it is in the learning phase)
+            if (random.random() < self.epsilon):
+                action = random.choice(self.valid_actions)
+
+            # Otherwise select the action that has the highest expected value..
+            else:
+                # Chose the action with the  highest Q value. For multiple
+                # actions with equally high Q values, select one at random
+                Q_vals = self.Q[state]
+                maxval = max(Q_vals.iteritems(), key=operator.itemgetter(1))[1]
+                maxacts = [act for act in Q_vals if Q_vals[act] == maxval]
+                action = random.choice(maxacts)
+
+        else:
+            # When not learning, choose a random action
+            action = random.choice(self.valid_actions)
+
         return action
 
 
