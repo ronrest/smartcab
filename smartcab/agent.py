@@ -8,7 +8,7 @@ class LearningAgent(Agent):
     """ An agent that learns to drive in the Smartcab world.
         This is the object you will be modifying. """ 
 
-    def __init__(self, env, learning=False, epsilon=1.0, alpha=0.5):
+    def __init__(self, env, learning=False, epsilon=1.0, alpha=0.5, edecay=None, adecay=None):
         super(LearningAgent, self).__init__(env)     # Set the agent in the evironment 
         self.planner = RoutePlanner(self.env, self)  # Create a route planner
         self.valid_actions = self.env.valid_actions  # The set of valid actions
@@ -17,12 +17,15 @@ class LearningAgent(Agent):
         self.learning = learning # Whether the agent is expected to learn
         self.Q = dict()          # Create a Q-table which will be a dictionary of tuples
         self.epsilon = epsilon   # Random exploration factor
+        self.epsilon_init = epsilon
         self.alpha = alpha       # Learning factor
 
-        ###########
-        ## TO DO ##
-        ###########
-        # Set any additional class parameters as needed
+        self.train_iteration = 0
+        self.init_qval = 0.0  # initial Q values
+        self.edecay =  edecay
+        self.adecay = adecay
+        self.t = 0
+        
 
 
     def reset(self, destination=None, testing=False):
