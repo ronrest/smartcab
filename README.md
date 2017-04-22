@@ -1,21 +1,26 @@
-# Machine Learning Engineer Nanodegree
-# Reinforcement Learning
-## Project: Train a Smartcab How to Drive
+# Train a Smartcab How to Drive
 
-### Install
+This is my submission for the Reinforcement Learning component of 
+Udacity's Machine Learnning Nanodegree. 
 
-This project requires **Python 2.7** with the [pygame](https://www.pygame.org/wiki/GettingStarted
-) library installed
+## Software Requirements
+This project uses the following software and Python libraries:
 
-### Code
+- [Python 2.7](https://www.python.org/download/releases/2.7/)
+- [NumPy](http://www.numpy.org/)
+- [pandas](http://pandas.pydata.org/)
+- [matplotlib](http://matplotlib.org/)
+- [PyGame](http://pygame.org/)
 
-Template code is provided in the `smartcab/agent.py` python file. Additional supporting python code can be found in `smartcab/enviroment.py`, `smartcab/planner.py`, and `smartcab/simulator.py`. Supporting images for the graphical user interface can be found in the `images` folder. While some code has already been implemented to get you started, you will need to implement additional functionality for the `LearningAgent` class in `agent.py` when requested to successfully complete the project. 
+
 
 ### Run
 
-In a terminal or command window, navigate to the top-level project directory `smartcab/` (that contains this README) and run one of the following commands:
+In a terminal or command window, navigate to the top-level project 
+directory `smartcab/` (that contains this README) and run one of the 
+following commands:
 
 ```python smartcab/agent.py```  
 ```python -m smartcab.agent```
 
-This will run the `agent.py` file and execute your agent code.
+This will run the `agent.py` file and train the agent.
