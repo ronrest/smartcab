@@ -47,13 +47,68 @@ class LearningAgent(Agent):
         # Select the destination as the new location to route to
         self.planner.route_to(destination)
         
-        ########### 
-        ## TO DO ##
-        ###########
-        # Update epsilon using a decay function of your choice
-        # Update additional class parameters as needed
+        self.state = self.build_state()
+        self.reward = 0
+        self.t += 1
+        
         # If 'testing' is True, set epsilon and alpha to 0
+        if testing:
+            self.epsilon = 0
+            self.alpha = 0
+        else:
+            # ALPHA DECAY
+            if type(self.adecay)is float:
+                self.alpha -= self.adecay  # linear decay rate for alpha
+            elif self.adecay == "1/t":
+                self.alpha = 1.0 / (self.t)
+            elif self.adecay == "1/t2":
+                self.alpha = 1.0 / (self.t ** 2)
+            elif self.adecay == "1/logt":
+                self.alpha = 1.0/math.log((self.t + math.e - 1))
+            elif self.adecay == "half":
+                self.alpha = self.alpha/2.0
+            elif type(self.adecay) is str and self.adecay.startswith("r"):
+                r = float(self.adecay[1:]) / 100.
+                self.alpha = r*self.alpha
+            elif type(self.adecay) is str and self.adecay.startswith("cr"):
+                # Capped rate (capped to a min alpha val of 0.005)
+                r = float(self.adecay[2:]) / 100.
+                self.alpha = max(r*self.alpha, 0.001)
 
+            # EPSILON DECAY
+            if type(self.edecay) is float:
+                self.epsilon -= self.edecay # linear decay rate for epsilon
+            elif self.edecay == "a^t":
+                self.epsilon = self.alpha**self.t
+            elif self.edecay == "a":
+                self.epsilon = self.alpha
+            elif self.edecay == "a2":
+                self.epsilon = self.alpha**2
+            elif self.edecay == "1/t2":
+                self.epsilon = 1.0/ (self.t**2)
+            elif self.edecay == "1/t":
+                self.epsilon = 1.0 / (self.t)
+            elif self.edecay == "eat":
+                self.epsilon = math.e ** (-self.alpha * self.t)
+            elif type(self.edecay) is str and self.edecay.startswith("ert"):
+                r = float(self.edecay[3:])
+                self.epsilon = math.e ** (-r * self.t)
+            elif self.edecay == "et":
+                self.epsilon = math.e ** (-self.t)
+            elif self.edecay == "cat":
+                self.epsilon = math.cos(self.alpha * self.t)
+            elif type(self.edecay) is str and self.edecay.startswith("r"):
+                r = float(self.edecay[1:]) / 100.
+                self.epsilon = r*self.epsilon
+            elif type(self.edecay) is str and self.edecay.startswith("inv_sigmoida"):
+                #s = "inv_sigmoid_k2.6o60"
+                k, offset = [float(val) for val in self.edecay.split("k")[1].split("o")]
+                # self.trial_count = self.trial_count + 1
+                self.epsilon = 1 - (1 / (1 + math.exp(-k * self.alpha * (self.t - offset))))
+            elif type(self.edecay) is str and self.edecay.startswith("inv_sigmoid"):
+                k, offset = [float(val) for val in self.edecay.split("k")[1].split("o")]
+                # self.trial_count = self.trial_count + 1
+                self.epsilon = 1 - (1 / (1 + math.exp(-k * (self.t - offset))))
         return None
 
 
