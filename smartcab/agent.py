@@ -3,6 +3,8 @@ import math
 from environment import Agent, Environment
 from planner import RoutePlanner
 from simulator import Simulator
+import operator
+
 
 class LearningAgent(Agent):
     """ An agent that learns to drive in the Smartcab world.
@@ -75,14 +77,14 @@ class LearningAgent(Agent):
         """ The get_max_Q function is called when the agent is asked to find the
             maximum Q-value of all actions based on the 'state' the smartcab is in. """
 
-        ########### 
-        ## TO DO ##
-        ###########
-        # Calculate the maximum Q-value of all actions for a given state
-
-        maxQ = None
-
-        return maxQ 
+        if state in self.Q:
+            Q_vals = self.Q[state]
+            maxQ = max(Q_vals.iteritems(), key=operator.itemgetter(1))[1]
+        else:
+            # Handle the case where state is not in self.Q
+            maxQ = random.choice(self.valid_actions)
+    
+        return maxQ
 
 
     def createQ(self, state):
